@@ -125,7 +125,12 @@ if __name__ == "__main__":
     app.state.cols = args.cols
     app.state.rows = args.rows
     
-    print(f"[{args.video}] ready to stream. Mode: {args.mode}, Res: {args.cols}x{args.rows}")
+    if not os.path.exists(args.video):
+        print(f"\n[WARNING] Video file '{args.video}' not found!")
+        print("The server will start, but streaming will fail until the file is provided.\n")
+    else:
+        print(f"[{args.video}] ready to stream. Mode: {args.mode}, Res: {args.cols}x{args.rows}")
+        
     print(f"Starting server... Please go to http://localhost:{args.port} in your browser.")
     
     uvicorn.run(app, host="0.0.0.0", port=args.port, ws_ping_interval=None, ws_ping_timeout=None)

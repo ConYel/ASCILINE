@@ -85,6 +85,15 @@ function startStream() {
         if (state !== 'PLAYING') return;
 
         if (typeof event.data === 'string') {
+            if (event.data.startsWith('Error:')) {
+                statusEl.textContent = event.data;
+                statusEl.style.color = '#ff0000';
+                state = 'IDLE';
+                if (ws) ws.close();
+                setTimeout(() => resetToIdle(), 3000);
+                return;
+            }
+            
             if (event.data.startsWith('INIT:')) {
                 const p = event.data.split(':');
                 targetFps = parseFloat(p[1]);

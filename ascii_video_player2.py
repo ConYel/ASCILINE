@@ -37,7 +37,7 @@ class VideoDecoder:
     def __init__(self, path: str, cols: int, rows: int) -> None:
         self._cap = cv2.VideoCapture(path)
         if not self._cap.isOpened():
-            raise FileNotFoundError(f"Video açılamadı: {path!r}")
+            raise FileNotFoundError(f"Could not open video file: {path!r}")
 
         self.fps         : float = self._cap.get(cv2.CAP_PROP_FPS) or 24.0
         self.frame_count : int   = int(self._cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -294,9 +294,13 @@ if __name__ == "__main__":
 
     custom_palette = args.palette.split() if args.palette else None
 
-    renderer = TerminalRenderer(
-        path          = args.video,
-        palette       = custom_palette,
-        quantize_bits = args.quality,
-    )
-    renderer.play()
+    try:
+        renderer = TerminalRenderer(
+            path          = args.video,
+            palette       = custom_palette,
+            quantize_bits = args.quality,
+        )
+        renderer.play()
+    except FileNotFoundError as e:
+        print(f"\n[Error] {e}")
+        sys.exit(1)
