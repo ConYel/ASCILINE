@@ -139,7 +139,7 @@ When set to `0`, the audio engine (FFmpeg) **never runs**, saving CPU and bandwi
 | `5`     | 2.0×             | Double volume |
 
 ```bash
-python stream_server.py video.mp4 --pixel --cols 330 --vol 0   # Silent
+python stream_server.py video.mp4 --pixel --cols 560 --vol 0   # Silent
 python stream_server.py video.mp4 --cols 220 --vol 3   # Loud
 ```
 
